@@ -10,10 +10,11 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
     "prepare": "husky install",
-    "commitlint": "commitlint --config commitlint.config.js -e -V",
+    "commitlint": "commitlint --config commitlint.config.cjs -e -V",
     "commit": "git-cz"
   },
   "dependencies": {
+    "cz-cli": "^1.0.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
@@ -38,6 +39,9 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "./.cz-config.cjs"
     }
   }
 }
