@@ -1,7 +1,7 @@
 <template>
   <div class="l-header">
-    <div class="l-header-lift">
-      <slot name="lift" />
+    <div class="l-header-left">
+      <slot name="left" />
     </div>
     <div class="l-header-right">
       <slot name="right" />
@@ -11,7 +11,7 @@
 <script lang="ts" setup></script>
 <style lang="scss">
 .l-header,
-.l-header-lift,
+.l-header-left,
 .l-header-right {
   display: flex;
   align-items: center;
@@ -21,7 +21,7 @@
   padding: 5px;
 }
 .l-header-right > *,
-.l-header-lift > * {
+.l-header-left > * {
   margin: 0 10px;
 }
 </style>
