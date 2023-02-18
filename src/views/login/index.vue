@@ -103,8 +103,8 @@ class Animation {
 }
 const animation = new Animation()
 const login = () => {
-  // router.push("/home")
-  animation.accelerate()
+  router.push("/home")
+  // animation.accelerate()
 }
 onMounted(() => {
   animation.create()
