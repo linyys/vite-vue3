@@ -5,7 +5,7 @@
         class="task-box"
         v-for="(item, index) in task_data"
         :key="index"
-        :ondragover="(e) => e.preventDefault()"
+        :ondragover="(e:any) => e.preventDefault()"
         :ondrop="() => dragend(item)"
       >
         <div
@@ -28,9 +28,9 @@ interface task_type {
   state: number
   items: Map<string, string>
 }
-let drag_data: [string, string] | null = null
-let drag_task: task_type | null = null
-const dragstart = (item, task) => {
+let drag_data: [string, string]
+let drag_task: task_type
+const dragstart = (item: [string, string], task: task_type) => {
   drag_data = item
   drag_task = task
 }
