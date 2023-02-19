@@ -1,10 +1,6 @@
 import { route_config } from "@/router/config"
 import { useRouter } from "vue-router"
 
-const filter_route = (value: string) => {
-  const nodes = []
-}
-
 export default () => {
   const router = useRouter()
   const routes = route_config
@@ -41,7 +37,7 @@ export default () => {
         <a-input
           allow-clear
           onInput={(value: string) => {
-            filter_route(value)
+            console.log(value)
           }}
         />
       </div>
