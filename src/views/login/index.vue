@@ -24,7 +24,7 @@
   </div>
 </template>
 <script lang="ts" setup name="Login">
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, onUnmounted, reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 import Konva from "konva"
 const router = useRouter()
@@ -51,7 +51,7 @@ class Animation {
     })
     // then create layer *然后创建一个图层
     const layer = new Konva.Layer()
-    layer.hitGraphEnabled(false)
+    layer.listening(false)
     stage.add(layer)
     this.layer = layer
     this.stage = stage
@@ -66,7 +66,6 @@ class Animation {
       opacity: 0.3
     })
     circle.listening(false)
-    circle.strokeHitEnabled(false)
     circle.shadowForStrokeEnabled(false)
     circle.hitStrokeWidth(0)
     circle.transformsEnabled("position")
@@ -103,17 +102,21 @@ class Animation {
 }
 const animation = new Animation()
 const login = () => {
-  router.push("/home")
+  router.push("/task")
   // animation.accelerate()
 }
+let timer: number | undefined
 onMounted(() => {
   animation.create()
   animation.addCircle()
-  setInterval(() => {
+  timer = setInterval(() => {
     for (let i = 0; i < 50; i++) {
       animation.addCircle()
     }
   }, 90)
+})
+onUnmounted(() => {
+  clearInterval(timer)
 })
 </script>
 <style scoped>
