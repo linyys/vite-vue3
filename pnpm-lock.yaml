@@ -18,7 +18,9 @@ specifiers:
   eslint-plugin-vue: ^9.9.0
   husky: ^8.0.3
   konva: ^8.4.2
+  mockjs: ^1.1.0
   pinia: ^2.0.30
+  pnpm: ^7.27.1
   prettier: ^2.8.4
   sass: ^1.58.2
   sass-loader: ^13.2.0
@@ -32,7 +34,9 @@ dependencies:
   '@vitejs/plugin-vue-jsx': 3.0.0_vite@4.1.1+vue@3.2.47
   cz-cli: 1.0.0
   konva: 8.4.2
+  mockjs: 1.1.0
   pinia: 2.0.30_hmuptsblhheur2tugfgucj7gc4
+  pnpm: 7.27.1
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
 
@@ -1482,6 +1486,11 @@ packages:
       color-string: 1.9.1
     dev: true
 
+  /commander/10.0.0:
+    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
+    engines: {node: '>=14'}
+    dev: false
+
   /commitizen/4.3.0:
     resolution: {integrity: sha512-H0iNtClNEhT0fotHvGV3E9tDejDeS04sN1veIebsKYGMuGscFaswRoYJKmT3eW85eIJAs0F28bG2+a/9wCOfPw==}
     engines: {node: '>= 12'}
@@ -2768,6 +2777,13 @@ packages:
       minimist: 1.2.8
     dev: true
 
+  /mockjs/1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
+    dependencies:
+      commander: 10.0.0
+    dev: false
+
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
@@ -3002,6 +3018,12 @@ packages:
       typescript: 4.9.5
       vue: 3.2.47
       vue-demi: 0.13.11_vue@3.2.47
+    dev: false
+
+  /pnpm/7.27.1:
+    resolution: {integrity: sha512-IpBeZ+71slENbuOXwbV4U6yxOMfEWEvlVuT6+ChZ1D80oF0eHyN4h/hc13UrzVXpXI3bf7sPfRWGb8TYkrvJUA==}
+    engines: {node: '>=14.6'}
+    hasBin: true
     dev: false
 
   /postcss-selector-parser/6.0.11:
