@@ -102,7 +102,7 @@ class Animation {
 }
 const animation = new Animation()
 const login = () => {
-  router.push("/task")
+  router.push("/task ")
   // animation.accelerate()
 }
 let timer: number | undefined

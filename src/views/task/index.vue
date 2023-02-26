@@ -1,5 +1,5 @@
 <template>
-  <a-card style="margin: 10px">
+  <a-card style="margin: 5px">
     <div id="task-box">
       <div
         class="task-box"
