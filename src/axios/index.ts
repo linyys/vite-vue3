@@ -1,8 +1,9 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 // 添加请求拦截器
 axios.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    config.baseURL = "http://192.168.22.101:3001"
     return config
   },
   function (error) {
@@ -25,4 +26,11 @@ axios.interceptors.response.use(
   }
 )
 
-export default axios
+export const post = (url: string, data: object) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
+    axios
+      .post(url, data)
+      .then((res) => resolve(res))
+      .catch((err) => reject(err))
+  })
+}

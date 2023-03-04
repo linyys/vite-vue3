@@ -27,5 +27,10 @@ export const route_config: Array<RouteRecordRaw> = [
     path: "/editImg",
     component: () => import("@/views/editImg/index.vue"),
     name: "EditImg"
+  },
+  {
+    path: "/chat",
+    component: () => import("@/views/chat/index.vue"),
+    name: "Chat"
   }
 ]
