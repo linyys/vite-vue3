@@ -9,6 +9,8 @@
       >
         <div v-if="item !== uid">{{ item }}</div>
       </div>
+      <a-button @click="onmessage">就绪</a-button>
+      <a-button @click="test">检查</a-button>
       <a-input v-model="input" />
       <a-button @click="send">send</a-button>
     </a-card>
@@ -24,43 +26,56 @@ const user_list: Ref = ref([])
 const socket = io("http://127.0.0.1:4000", { autoConnect: false })
 const input = ref("")
 const localConnection = new RTCPeerConnection({})
+localConnection.addEventListener("icecandidate", (e) => {
+  // localConnection.addIceCandidate(e.candidate as any)
+  console.log(e.candidate)
+
+  if (e.candidate !== null) {
+    conn_ice(e.candidate)
+  }
+})
 let dc: RTCDataChannel
-localConnection.onsignalingstatechange = function () {
-  console.log("Signaling state: " + localConnection.signalingState)
-}
-const conn = async (c_uid: string) => {
+let c_uid: string
+const conn = async (item: string) => {
+  c_uid = item
   const offer = await localConnection.createOffer({})
   await localConnection.setLocalDescription(offer)
-  socket.emit("send", { offer, c_uid, uid, state: "c_offer" }, (data: any) => {
-    console.log("发送", data)
-  })
+  socket.emit("send", { offer, c_uid, uid, state: "c_offer" })
+}
+
+const conn_ice = async (candidate: RTCIceCandidate) => {
+  let data = JSON.stringify(candidate)
+  socket.emit("send", { candidate: data, c_uid, uid, state: "c_candidate" })
+}
+
+const accept_ice = async (candidate: string) => {
+  let data = JSON.parse(candidate)
+  localConnection.addIceCandidate(data)
+  console.log(data)
 }
 
 const respond = async (c_uid: any) => {
   const answer = await localConnection.createAnswer({})
   await localConnection.setLocalDescription(answer)
-  socket.emit(
-    "send",
-    { answer, c_uid, uid, state: "c_answer" },
-    (data: any) => {
-      console.log(data)
-    }
-  )
+  socket.emit("send", { answer, c_uid, uid, state: "c_answer" })
 }
 
 const join = async () => {
-  socket.emit("join", { uid }, (data: any) => {
-    console.log("加入")
-  })
+  socket.emit("join", { uid })
   socket.on(uid, async (data) => {
     if (data.state == "c_offer") {
+      console.log("c_offer")
       await accept_offer(data)
       await respond(data.uid)
-      ready()
     } else if (data.state == "c_answer") {
+      console.log("c_answer")
       await accept_answer(data.answer)
-      ready()
+    } else if (data.state == "c_candidate") {
+      console.log("c_candidate")
+
+      await accept_ice(data.candidate)
     }
+    ready()
   })
   socket.on("joined", (data) => {
     user_list.value.push(data)
@@ -68,18 +83,30 @@ const join = async () => {
 }
 
 const ready = () => {
-  localConnection.addEventListener("icecandidate", (e) => {
-    localConnection.addIceCandidate(e.candidate as any)
-  })
-  console.log(localConnection)
+  console.log(1)
 
   dc = localConnection.createDataChannel("chat")
   dc.onopen = () => {
-    console.log("已打开")
+    console.log("open", dc.readyState)
   }
+  dc.onclose = (e) => {
+    console.log("close", e)
+  }
+  dc.onerror = (e) => {
+    console.log("err", e)
+  }
+}
+
+const onmessage = () => {
   dc.onmessage = (e) => {
-    console.log(e)
+    console.log("msg", e)
   }
+}
+
+const test = () => {
+  console.log(localConnection.iceConnectionState)
+  console.log(localConnection.connectionState)
+  console.log(localConnection.sctp)
 }
 
 const send = () => {
