@@ -72,7 +72,6 @@ const join = async () => {
       await accept_answer(data.answer)
     } else if (data.state == "c_candidate") {
       console.log("c_candidate")
-
       await accept_ice(data.candidate)
     }
     ready()
