@@ -44,7 +44,8 @@ const upload = (file: any) => {
 
 let is_down = false
 let img_data: any
-const moveStart = () => {
+let old_x: number, old_y: number
+const moveStart = (e: any) => {
   is_down = true
   img_data = edit_canvas.getImageData(
     0,
@@ -52,18 +53,37 @@ const moveStart = () => {
     Canvas.value.width,
     Canvas.value.height
   )
+  old_x = e.offsetX
+  old_y = e.offsetY
 }
 
 const move = (e: any) => {
   if (!is_down) {
     return
   }
-  edit_canvas.moveTo(e.offsetY, e.offsetX)
-  let index = (e.offsetY * img_data.width + e.offsetX) * 4
-  img_data.data[index] = 255
-  img_data.data[index + 1] = 0
-  img_data.data[index + 2] = 0
-  img_data.data[index + 3] = 255
+  const is_r: boolean = e.offsetX > old_x
+  const is_up: boolean = e.offsetY > old_y
+  const diff_x = is_r ? e.offsetX - old_x : old_x - e.offsetX
+  const diff_y = is_up ? e.offsetY - old_y : old_y - e.offsetY
+
+  for (let i = 0; i < diff_x; i++) {
+    let x = is_r ? e.offsetX - i : e.offsetX + i
+    let index = (e.offsetY * img_data.width + x) * 4
+    img_data.data[index] = 255
+    img_data.data[index + 1] = 0
+    img_data.data[index + 2] = 0
+    img_data.data[index + 3] = 255
+  }
+  for (let i = 0; i < diff_y; i++) {
+    let y = is_up ? e.offsetY - i : e.offsetY + i
+    let index = (y * img_data.width + e.offsetX) * 4
+    img_data.data[index] = 255
+    img_data.data[index + 1] = 0
+    img_data.data[index + 2] = 0
+    img_data.data[index + 3] = 255
+  }
+  old_x = e.offsetX
+  old_y = e.offsetY
   edit_canvas.putImageData(img_data, 0, 0)
 }
 
